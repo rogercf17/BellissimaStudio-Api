@@ -1,12 +1,17 @@
 package com.example.backend.BelissimaStudio.dto.request;
 
-import java.time.*;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
-import jakarta.validation.constraints.*;
 
 public record AgendamentoRequest(
-        @NotBlank(message = "Nome do cliente é obrigatório")
-        String nomeCliente,
+
+        @NotNull(message = "Cliente é obrigatório")
+        Long clienteId,
 
         @NotNull(message = "Data do agendamento é obrigatória")
         @FutureOrPresent(message = "A data do agendamento deve ser no presente ou no futuro")
@@ -17,4 +22,6 @@ public record AgendamentoRequest(
 
         @NotEmpty(message = "Pelo menos um serviço deve ser selecionado")
         List<String> servicos
-) { }
+
+) {
+}

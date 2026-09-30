@@ -5,22 +5,16 @@ import com.example.backend.BelissimaStudio.model.Servico;
 
 import java.util.List;
 
-public record AgendamentoResponse(
+public record AgendamentoClienteResponse(
         Long id,
-        Long clienteId,
-        String nomeCliente,
-        String telefoneCliente,
         String data,
         String horario,
         List<String> servicos
 ) {
 
-    public AgendamentoResponse(Agendamento agendamento) {
+    public AgendamentoClienteResponse(Agendamento agendamento) {
         this(
                 agendamento.getId(),
-                agendamento.getCliente().getId(),
-                agendamento.getCliente().getNome(),
-                agendamento.getCliente().getTelefone(),
                 agendamento.getData().toString(),
                 agendamento.getHorario().toString(),
                 agendamento.getServicos()

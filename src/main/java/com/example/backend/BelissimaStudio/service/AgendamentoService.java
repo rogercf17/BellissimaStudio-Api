@@ -3,10 +3,12 @@ package com.example.backend.BelissimaStudio.service;
 import com.example.backend.BelissimaStudio.dto.request.AgendamentoRequest;
 import com.example.backend.BelissimaStudio.dto.response.AgendamentoResponse;
 import com.example.backend.BelissimaStudio.model.Agendamento;
+import com.example.backend.BelissimaStudio.model.Cliente;
 import com.example.backend.BelissimaStudio.model.Servico;
 import com.example.backend.BelissimaStudio.repository.AgendamentoRepository;
+import com.example.backend.BelissimaStudio.repository.ClienteRepository;
 import com.example.backend.BelissimaStudio.uteis.ConverterServico;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -18,17 +20,16 @@ import static com.example.backend.BelissimaStudio.uteis.ConverterServico.convert
 
 
 @Service
+@RequiredArgsConstructor
 public class AgendamentoService {
-    @Autowired
-    private AgendamentoRepository repository;
+    private final AgendamentoRepository repository;
+    private final ClienteRepository clienteRepository;
 
     public List<AgendamentoResponse> listarAgendamentos() {
-        List<AgendamentoResponse> listaAgendamentos = repository.findAll()
+        return repository.findAll()
                 .stream()
                 .map(AgendamentoResponse::new)
                 .toList();
-
-        return listaAgendamentos;
     }
 
     public AgendamentoResponse criarAgendamento(AgendamentoRequest request) {
@@ -38,8 +39,15 @@ public class AgendamentoService {
                     HttpStatus.CONFLICT, "Já existe um agendamento neste horário.");
         }
 
+        Cliente cliente = clienteRepository.findById(request.clienteId())
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Cliente não encontrada com o ID: " + request.clienteId()
+                ));
+
         Agendamento agendamento = new Agendamento();
-        agendamento.setNomeCliente(request.nomeCliente());
+
+        agendamento.setCliente(cliente);
         agendamento.setData(request.data());
         agendamento.setHorario(request.horario());
         agendamento.setServicos(converterServicos(request.servicos()));
@@ -53,6 +61,22 @@ public class AgendamentoService {
         if (agendamentosEncontrados.isEmpty()) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Nenhum agendamento encontrado para a data especificada.");
+        }
+
+        return agendamentosEncontrados.stream()
+                .map(AgendamentoResponse::new)
+                .toList();
+    }
+
+    public List<AgendamentoResponse> buscarAgendamentoPorMes(Integer mes, Integer ano) {
+        LocalDate inicio = LocalDate.of(ano, mes, 1);
+        LocalDate fim = inicio.withDayOfMonth(inicio.lengthOfMonth());
+
+        List<Agendamento> agendamentosEncontrados = repository.findByDataBetween(inicio, fim);
+
+        if (agendamentosEncontrados.isEmpty()) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Nenhum agendamento encontrado para o mês especificado.");
         }
 
         return agendamentosEncontrados.stream()
@@ -106,7 +130,13 @@ public class AgendamentoService {
             }
         }
 
-        agendamentoExistente.setNomeCliente(request.nomeCliente());
+        Cliente cliente = clienteRepository.findById(request.clienteId())
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Cliente não encontrada com o ID: " + request.clienteId()
+                ));
+
+        agendamentoExistente.setCliente(cliente);
         agendamentoExistente.setData(request.data());
         agendamentoExistente.setHorario(request.horario());
         agendamentoExistente.setServicos(converterServicos(request.servicos()));

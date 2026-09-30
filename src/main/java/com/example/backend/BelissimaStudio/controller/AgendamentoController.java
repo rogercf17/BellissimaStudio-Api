@@ -4,6 +4,8 @@ import com.example.backend.BelissimaStudio.dto.request.AgendamentoRequest;
 import com.example.backend.BelissimaStudio.dto.response.AgendamentoResponse;
 import com.example.backend.BelissimaStudio.service.AgendamentoService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +15,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/bellissima-studio")
+@RequestMapping("/api/bellissima-studio")
 public class AgendamentoController {
     @Autowired
     private AgendamentoService service;
@@ -33,6 +35,14 @@ public class AgendamentoController {
     @GetMapping("/agendamento/data/{data}")
     public ResponseEntity<List<AgendamentoResponse>> findByDate(@PathVariable LocalDate data) {
         List<AgendamentoResponse> agendamentos = service.buscarAgendamentoPorData(data);
+        return ResponseEntity.ok(agendamentos);
+    }
+
+    @GetMapping("/agendamento/mes/{mes}/ano/{ano}")
+    public ResponseEntity<List<AgendamentoResponse>> findByMonth(
+            @PathVariable @Min(1) @Max(12) Integer mes,
+            @PathVariable Integer ano) {
+        List<AgendamentoResponse> agendamentos = service.buscarAgendamentoPorMes(mes, ano);
         return ResponseEntity.ok(agendamentos);
     }
 

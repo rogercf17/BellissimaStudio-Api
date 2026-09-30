@@ -7,7 +7,10 @@ public enum Servico {
     SOMBRANCELHA("Sobrancelha"),
     UNHA("Unha"),
     TERAPIA_CAPILAR("Terapia Capilar"),
-    BOTOX("Botox");
+    BOTOX("Botox"),
+    ESCOVA_E_PRANCHA("Escova e prancha"),
+    PENTEADO("Penteado"),
+    MAQUIAGEM("Maquiagem");
 
     private final String nome;
 
