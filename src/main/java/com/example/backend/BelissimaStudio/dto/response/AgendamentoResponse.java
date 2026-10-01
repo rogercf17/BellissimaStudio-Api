@@ -1,8 +1,9 @@
 package com.example.backend.BelissimaStudio.dto.response;
 
 import com.example.backend.BelissimaStudio.model.Agendamento;
-import com.example.backend.BelissimaStudio.model.Servico;
+import com.example.backend.BelissimaStudio.enums.Servico;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public record AgendamentoResponse(
@@ -12,7 +13,8 @@ public record AgendamentoResponse(
         String telefoneCliente,
         String data,
         String horario,
-        List<String> servicos
+        List<String> servicos,
+        BigDecimal valor
 ) {
 
     public AgendamentoResponse(Agendamento agendamento) {
@@ -26,7 +28,8 @@ public record AgendamentoResponse(
                 agendamento.getServicos()
                         .stream()
                         .map(Servico::getNome)
-                        .toList()
+                        .toList(),
+                agendamento.getValor()
         );
     }
 }

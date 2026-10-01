@@ -1,7 +1,7 @@
 package com.example.backend.BelissimaStudio.dto.response;
 
 import com.example.backend.BelissimaStudio.model.Agendamento;
-import com.example.backend.BelissimaStudio.model.Servico;
+import com.example.backend.BelissimaStudio.enums.Servico;
 
 import java.util.List;
 

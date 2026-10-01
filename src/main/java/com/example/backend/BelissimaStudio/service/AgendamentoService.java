@@ -4,10 +4,9 @@ import com.example.backend.BelissimaStudio.dto.request.AgendamentoRequest;
 import com.example.backend.BelissimaStudio.dto.response.AgendamentoResponse;
 import com.example.backend.BelissimaStudio.model.Agendamento;
 import com.example.backend.BelissimaStudio.model.Cliente;
-import com.example.backend.BelissimaStudio.model.Servico;
+import com.example.backend.BelissimaStudio.enums.Servico;
 import com.example.backend.BelissimaStudio.repository.AgendamentoRepository;
 import com.example.backend.BelissimaStudio.repository.ClienteRepository;
-import com.example.backend.BelissimaStudio.uteis.ConverterServico;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -51,6 +50,7 @@ public class AgendamentoService {
         agendamento.setData(request.data());
         agendamento.setHorario(request.horario());
         agendamento.setServicos(converterServicos(request.servicos()));
+        agendamento.setValor(request.valor());
 
         return new AgendamentoResponse(repository.save(agendamento));
     }
@@ -140,6 +140,7 @@ public class AgendamentoService {
         agendamentoExistente.setData(request.data());
         agendamentoExistente.setHorario(request.horario());
         agendamentoExistente.setServicos(converterServicos(request.servicos()));
+        agendamentoExistente.setValor(request.valor());
 
         return new AgendamentoResponse(repository.save(agendamentoExistente));
     }

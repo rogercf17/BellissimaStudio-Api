@@ -1,4 +1,4 @@
-package com.example.backend.BelissimaStudio.model;
+package com.example.backend.BelissimaStudio.enums;
 
 public enum Servico {
     ESCOVA("Escova"),

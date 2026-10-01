@@ -1,6 +1,6 @@
 package com.example.backend.BelissimaStudio.uteis;
 
-import com.example.backend.BelissimaStudio.model.Servico;
+import com.example.backend.BelissimaStudio.enums.Servico;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.*;
