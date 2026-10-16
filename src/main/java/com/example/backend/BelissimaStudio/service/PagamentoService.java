@@ -77,7 +77,7 @@ public class PagamentoService {
 
     @Transactional(readOnly = true)
     public List<PendenteDTO> pendentes() {
-        return agendamentoRepository.findPendentes(hoje())
+        return agendamentoRepository.findPendentes()
                 .stream()
                 .map(a -> new PendenteDTO(
                         a.getId(), a.getCliente().getNome(),

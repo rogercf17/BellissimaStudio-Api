@@ -41,7 +41,7 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> 
           and a.data <= :ate
         order by a.data, a.horario
     """)
-    List<Agendamento> findPendentes(LocalDate ate);
+    List<Agendamento> findPendentes();
 
     @Query("""
         select a from agendamento a join fetch a.cliente

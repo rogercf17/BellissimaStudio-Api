@@ -45,7 +45,7 @@ public class ClienteController {
         service.alterarStatus(id, request.ativo());
         return ResponseEntity.noContent().build();
     }
-    
+
     @GetMapping("/clientes/status/{isAtivo}")
     public ResponseEntity<List<ClienteResponse>> findByAtivo(@PathVariable Boolean isAtivo) {
         return ResponseEntity.ok(service.listarAtivos(isAtivo));
