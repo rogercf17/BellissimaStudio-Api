@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,8 +45,7 @@ public class ClienteController {
         service.alterarStatus(id, request.ativo());
         return ResponseEntity.noContent().build();
     }
-
-
+    
     @GetMapping("/clientes/status/{isAtivo}")
     public ResponseEntity<List<ClienteResponse>> findByAtivo(@PathVariable Boolean isAtivo) {
         return ResponseEntity.ok(service.listarAtivos(isAtivo));

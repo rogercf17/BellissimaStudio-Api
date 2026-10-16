@@ -18,6 +18,7 @@ import java.util.List;
 public class ClienteService {
     private final ClienteRepository repository;
 
+    @Transactional(readOnly = true)
     public List<ClienteResponse> listarClientes() {
         return  repository.findAll().stream()
                 .map(ClienteResponse::new)
@@ -52,6 +53,7 @@ public class ClienteService {
         repository.save(cliente);
     }
 
+    @Transactional(readOnly = true)
     public List<ClienteResponse> listarAtivos(Boolean isAtivo) {
         return repository.findByAtivo(isAtivo)
                 .stream()
