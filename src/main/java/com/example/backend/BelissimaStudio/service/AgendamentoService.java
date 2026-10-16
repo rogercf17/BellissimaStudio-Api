@@ -10,6 +10,7 @@ import com.example.backend.BelissimaStudio.repository.ClienteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
@@ -24,6 +25,7 @@ public class AgendamentoService {
     private final AgendamentoRepository repository;
     private final ClienteRepository clienteRepository;
 
+    @Transactional(readOnly = true)
     public List<AgendamentoResponse> listarAgendamentos() {
         return repository.findAll()
                 .stream()
@@ -55,6 +57,7 @@ public class AgendamentoService {
         return new AgendamentoResponse(repository.save(agendamento));
     }
 
+    @Transactional(readOnly = true)
     public List<AgendamentoResponse> buscarAgendamentoPorData(LocalDate data) {
         List<Agendamento> agendamentosEncontrados = repository.findByData(data);
 
@@ -68,6 +71,7 @@ public class AgendamentoService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public List<AgendamentoResponse> buscarAgendamentoPorMes(Integer mes, Integer ano) {
         LocalDate inicio = LocalDate.of(ano, mes, 1);
         LocalDate fim = inicio.withDayOfMonth(inicio.lengthOfMonth());
@@ -84,6 +88,7 @@ public class AgendamentoService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public List<AgendamentoResponse> buscarAgendamentoPorServico(String servico) {
         Servico servicoEnum;
 

@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClienteController {
     private final ClienteService service;
-
+    
     @GetMapping("/clientes")
     public ResponseEntity<List<ClienteResponse>> listAll() {
         return ResponseEntity.ok(service.listarClientes());
