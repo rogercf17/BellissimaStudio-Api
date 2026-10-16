@@ -38,7 +38,6 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> 
     @Query("""
         select a from agendamento a join fetch a.cliente
         where a.statusPagamento = com.example.backend.BelissimaStudio.enums.StatusPagamento.PENDENTE
-          and a.data <= :ate
         order by a.data, a.horario
     """)
     List<Agendamento> findPendentes();
