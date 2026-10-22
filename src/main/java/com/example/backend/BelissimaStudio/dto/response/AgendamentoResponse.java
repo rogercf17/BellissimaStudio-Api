@@ -10,7 +10,6 @@ public record AgendamentoResponse(
         Long id,
         Long clienteId,
         String nomeCliente,
-        String telefoneCliente,
         String data,
         String horario,
         List<String> servicos,
@@ -22,7 +21,6 @@ public record AgendamentoResponse(
                 agendamento.getId(),
                 agendamento.getCliente().getId(),
                 agendamento.getCliente().getNome(),
-                agendamento.getCliente().getTelefone(),
                 agendamento.getData().toString(),
                 agendamento.getHorario().toString(),
                 agendamento.getServicos()
