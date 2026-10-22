@@ -18,8 +18,6 @@ public class Cliente {
 
     private String nome;
 
-    private String telefone;
-
     @Column(nullable = false)
     private Boolean ativo = true;
 

@@ -7,7 +7,6 @@ import java.util.List;
 public record ClienteResponse(
         Long id,
         String nome,
-        String telefone,
         Boolean ativo,
         List<AgendamentoClienteResponse> agendamentos
 ) {
@@ -16,7 +15,6 @@ public record ClienteResponse(
         this(
                 cliente.getId(),
                 cliente.getNome(),
-                cliente.getTelefone(),
                 cliente.getAtivo(),
                 cliente.getAgendamentos()
                         .stream()

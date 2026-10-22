@@ -28,7 +28,6 @@ public class ClienteService {
     public ClienteResponse cadastrarCliente(ClienteRequest request) {
         Cliente cliente = new Cliente();
         cliente.setNome(request.nome());
-        cliente.setTelefone(request.telefone());
 
         return new ClienteResponse(repository.save(cliente));
     }
@@ -39,7 +38,6 @@ public class ClienteService {
                         HttpStatus.NOT_FOUND, "Cliente não encontrada com o ID: " + id));
 
         clienteExistente.setNome(requestAtualizado.nome());
-        clienteExistente.setTelefone(requestAtualizado.telefone());
 
         return new ClienteResponse(repository.save(clienteExistente));
     }
