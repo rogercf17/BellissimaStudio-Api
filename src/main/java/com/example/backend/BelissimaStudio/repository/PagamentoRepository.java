@@ -37,4 +37,6 @@ public interface PagamentoRepository extends JpaRepository<Pagamento, Long> {
     List<FaturamentoDiaDTO> faturamentoPorDia(LocalDate inicio, LocalDate fim);
 
     List<Pagamento> findByAgendamentoIdIn(Collection<Long> ids);
+
+    void deleteByAgendamentoId(Long agendamentoId);
 }

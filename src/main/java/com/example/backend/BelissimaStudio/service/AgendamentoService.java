@@ -7,6 +7,7 @@ import com.example.backend.BelissimaStudio.model.Cliente;
 import com.example.backend.BelissimaStudio.enums.Servico;
 import com.example.backend.BelissimaStudio.repository.AgendamentoRepository;
 import com.example.backend.BelissimaStudio.repository.ClienteRepository;
+import com.example.backend.BelissimaStudio.repository.PagamentoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ import static com.example.backend.BelissimaStudio.uteis.ConverterServico.convert
 public class AgendamentoService {
     private final AgendamentoRepository repository;
     private final ClienteRepository clienteRepository;
+    private final PagamentoRepository pagamentoRepository;
 
     @Transactional(readOnly = true)
     public List<AgendamentoResponse> listarAgendamentos() {
@@ -111,11 +113,13 @@ public class AgendamentoService {
                 .toList();
     }
 
+    @Transactional
     public void deletarAgendamento(Long id) {
         Agendamento agendamento = repository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Agendamento não encontrado com o ID: " + id));
 
+        pagamentoRepository.deleteByAgendamentoId(id);
         repository.delete(agendamento);
     }
 
