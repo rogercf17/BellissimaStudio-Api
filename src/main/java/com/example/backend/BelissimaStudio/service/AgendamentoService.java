@@ -5,6 +5,7 @@ import com.example.backend.BelissimaStudio.dto.response.AgendamentoResponse;
 import com.example.backend.BelissimaStudio.model.Agendamento;
 import com.example.backend.BelissimaStudio.model.Cliente;
 import com.example.backend.BelissimaStudio.enums.Servico;
+import com.example.backend.BelissimaStudio.enums.StatusPagamento;
 import com.example.backend.BelissimaStudio.repository.AgendamentoRepository;
 import com.example.backend.BelissimaStudio.repository.ClienteRepository;
 import com.example.backend.BelissimaStudio.repository.PagamentoRepository;
@@ -137,6 +138,12 @@ public class AgendamentoService {
                 throw new ResponseStatusException(
                         HttpStatus.CONFLICT, "Já existe um agendamento neste horário.");
             }
+        }
+
+        if (agendamentoExistente.getStatusPagamento() == StatusPagamento.PAGO
+                && agendamentoExistente.getValor().compareTo(request.valor()) != 0) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT, "Não é possível alterar o valor de um agendamento já pago.");
         }
 
         Cliente cliente = clienteRepository.findById(request.clienteId())

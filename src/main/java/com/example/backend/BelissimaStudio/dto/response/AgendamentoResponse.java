@@ -1,5 +1,6 @@
 package com.example.backend.BelissimaStudio.dto.response;
 
+import com.example.backend.BelissimaStudio.enums.StatusPagamento;
 import com.example.backend.BelissimaStudio.model.Agendamento;
 import com.example.backend.BelissimaStudio.enums.Servico;
 
@@ -13,7 +14,8 @@ public record AgendamentoResponse(
         String data,
         String horario,
         List<String> servicos,
-        BigDecimal valor
+        BigDecimal valor,
+        StatusPagamento statusPagamento
 ) {
 
     public AgendamentoResponse(Agendamento agendamento) {
@@ -27,7 +29,8 @@ public record AgendamentoResponse(
                         .stream()
                         .map(Servico::getNome)
                         .toList(),
-                agendamento.getValor()
+                agendamento.getValor(),
+                agendamento.getStatusPagamento()
         );
     }
 }

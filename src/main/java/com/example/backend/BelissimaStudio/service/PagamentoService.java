@@ -39,13 +39,13 @@ public class PagamentoService {
                 .sum();
 
         return new ResumoDoDia(
-                data,
-                agendamentoRepository.somaProduzidoNoDia(data),
-                repository.somaRecebidaNoDia(data),
-                agendamentoRepository.somaPorStatusNoDia(data, StatusPagamento.PENDENTE),
+                dia,
+                agendamentoRepository.somaProduzidoNoDia(dia),
+                repository.somaRecebidaNoDia(dia),
+                agendamentoRepository.somaPorStatusNoDia(dia, StatusPagamento.PENDENTE),
                 totalServicos,
                 agendamentosDoDia.size(),
-                repository.totaisPorForma(data)
+                repository.totaisPorForma(dia)
         );
     }
 
@@ -94,7 +94,7 @@ public class PagamentoService {
                     HttpStatus.BAD_REQUEST, "dias deve ser 7, 30 ou 90"
             );
 
-        LocalDate fim = LocalDate.now();
+        LocalDate fim = hoje();
         LocalDate inicio = fim.minusDays(dias - 1L);
 
         Map<LocalDate, BigDecimal> porDia = repository.faturamentoPorDia(inicio, fim)
@@ -116,15 +116,11 @@ public class PagamentoService {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT, "Agendamento já está pago");
 
-        if (agendamento.getData().isAfter(hoje()))
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "Não é possível registrar pagamento de atendimento futuro");
-
         Pagamento pagamento = new Pagamento();
         pagamento.setAgendamento(agendamento);
         pagamento.setFormaPagamento(pagamentoDTO.formaPagamento());
         pagamento.setValor(pagamentoDTO.valor());
-        pagamento.setDataPagamento(LocalDate.now());
+        pagamento.setDataPagamento(hoje());
 
         repository.save(pagamento);
 
